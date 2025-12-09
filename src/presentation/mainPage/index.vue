@@ -1,9 +1,17 @@
 <template>
   <section style="background-color: white">
     <h1>Página Principal</h1>
-    <section>
-      <Kanban :boards="boards" :itens="itens" @onChange="onChangeItemFromBoard" />
-    </section>
+    <Kanban :boards="boards" :itens="itens" @onChange="onChangeItemFromBoard">
+      <template #title="{ board }">
+        {{ board.title }}
+      </template>
+
+      <template #item="{ boardItem }">
+        <div class="board-item-style">
+          {{ boardItem.label }}
+        </div>
+      </template>
+    </Kanban>
   </section>
 </template>
 
@@ -27,3 +35,11 @@ const onChangeItemFromBoard = ({ index, value }: onChangeBoardItem) => {
   itens.value[index] = value
 }
 </script>
+
+<style scoped>
+.board-item-style {
+  border-radius: 12px;
+  background-color: orange;
+  padding: 16px;
+}
+</style>

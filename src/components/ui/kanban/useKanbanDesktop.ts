@@ -1,5 +1,6 @@
 import type { Ref } from 'vue'
 import type { Board, BoardItem, Kanban, KanbanEmits } from './kanban.types'
+import { useKanbanGhostEffect } from './useKanbanGhostEffect'
 
 type Props = {
   props: Kanban
@@ -16,7 +17,13 @@ export const useKanbanDesktop = ({
   draggedItem,
   draggedItemIndex,
 }: Props) => {
-  const onDragStart = (item: BoardItem) => {
+  const { createGhost, removeGhost } = useKanbanGhostEffect()
+
+  const onDragStart = (item: BoardItem, e: DragEvent) => {
+    const target = e.target as HTMLElement
+    const ghost = createGhost(target)
+    e.dataTransfer?.setDragImage(ghost, 10, 10)
+
     isDragging.value = true
     draggedItem.value = item
     draggedItemIndex.value = props.itens.findIndex(
@@ -30,6 +37,7 @@ export const useKanbanDesktop = ({
 
   const onDrop = (target: Board) => {
     if (isDragging.value && draggedItem.value && draggedItemIndex.value >= 0) {
+      removeGhost()
       emits('onChange', {
         index: draggedItemIndex.value,
         value: { ...draggedItem.value, value: target.value },

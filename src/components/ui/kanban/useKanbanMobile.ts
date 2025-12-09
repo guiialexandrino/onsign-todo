@@ -1,5 +1,6 @@
 import { onBeforeUnmount, onMounted, type Ref } from 'vue'
 import type { BoardItem, Kanban, KanbanEmits } from './kanban.types'
+import { useKanbanGhostEffect } from './useKanbanGhostEffect'
 
 type Props = {
   props: Kanban
@@ -20,6 +21,7 @@ export const useKanbanMobile = ({
   draggedItemIndex,
 }: Props) => {
   let touchXStart = 0
+  const { createGhostMobile, moveMobileGhost, removeGhost } = useKanbanGhostEffect()
 
   const onTouchMobileStart = (e: TouchEvent) => {
     if (e.targetTouches[0]?.clientX) {
@@ -32,6 +34,7 @@ export const useKanbanMobile = ({
     if (e.targetTouches[0]?.clientX) {
       const clientX = e.targetTouches[0].clientX
       const touchMovement = touchXStart - clientX
+      moveMobileGhost(e.targetTouches[0])
       if (kanbanWrapperRef.value) {
         const SCROLL_SPEED = 8
         const scrollValue = touchMovement < 0 ? -SCROLL_SPEED : SCROLL_SPEED
@@ -58,6 +61,7 @@ export const useKanbanMobile = ({
 
       const board = props.boards[boardIndex]
       if (!board) return
+      removeGhost()
 
       if (isDragging.value && draggedItem.value && draggedItemIndex.value >= 0) {
         emits('onChange', {
@@ -71,6 +75,19 @@ export const useKanbanMobile = ({
     }
   }
 
+  const onTouchBoardItemStart = (item: BoardItem, e: TouchEvent) => {
+    if (e.targetTouches[0]?.clientX) {
+      const target = e.target as HTMLElement
+      createGhostMobile(target, e.targetTouches[0])
+    }
+
+    isDragging.value = true
+    draggedItem.value = item
+    draggedItemIndex.value = props.itens.findIndex(
+      (boardItem) => boardItem.created_at === item.created_at,
+    )
+  }
+
   onMounted(() => {
     window.addEventListener('touchmove', onTouchMobileMove, { passive: false })
   })
@@ -79,5 +96,5 @@ export const useKanbanMobile = ({
     window.removeEventListener('touchmove', onTouchMobileMove)
   })
 
-  return { kanbanWrapperRef, onTouchMobileStart, onTouchMobileItemEnd }
+  return { kanbanWrapperRef, onTouchMobileStart, onTouchMobileItemEnd, onTouchBoardItemStart }
 }

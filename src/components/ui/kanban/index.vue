@@ -1,5 +1,5 @@
 <template>
-  <section ref="kanbanWrapperRef" class="kanban-wrapper" @dragleave="">
+  <section ref="kanbanWrapperRef" class="kanban-wrapper">
     <div
       v-for="board in props.boards"
       :key="board.value"
@@ -9,17 +9,30 @@
       @touchstart="onTouchMobileStart"
       @touchend="onTouchMobileItemEnd"
     >
-      <h2>{{ board.title }}</h2>
+      <h2 v-if="!slots.title">{{ board.title }}</h2>
+      <slot v-else name="title" :board="board"></slot>
 
       <div class="board-wrapper">
         <div v-for="boardItem in getItens(board.value)" :key="boardItem.created_at">
           <div
+            v-if="!slots.item"
+            ref="board-item"
             class="item-style"
             :draggable="true"
-            @dragstart="onDragStart(boardItem)"
-            @touchstart="onDragStart(boardItem)"
+            @dragstart="(e) => onDragStart(boardItem, e)"
+            @touchstart="(e) => onTouchBoardItemStart(boardItem, e)"
           >
             {{ boardItem.label }}
+          </div>
+
+          <div
+            v-else
+            ref="board-item"
+            :draggable="true"
+            @dragstart="(e) => onDragStart(boardItem, e)"
+            @touchstart="(e) => onTouchBoardItemStart(boardItem, e)"
+          >
+            <slot name="item" :boardItem="boardItem"></slot>
           </div>
         </div>
       </div>
@@ -31,10 +44,11 @@
 import { computed, ref } from 'vue'
 import { useKanbanDesktop } from './useKanbanDesktop'
 import { useKanbanMobile } from './useKanbanMobile'
-import { type KanbanEmits, type Kanban, type BoardItem } from './kanban.types'
+import { type KanbanEmits, type Kanban, type BoardItem, type KanbanSlots } from './kanban.types'
 
 const props = withDefaults(defineProps<Kanban>(), { gapBetweenBoards: 20, boardWidth: 400 })
 const emits = defineEmits<KanbanEmits>()
+const slots = defineSlots<KanbanSlots>()
 
 const gap = computed(() => `${props.gapBetweenBoards}px`)
 const width = computed(() => `${props.boardWidth}px`)
@@ -55,7 +69,7 @@ const { onDragStart, onDragOver, onDrop } = useKanbanDesktop({
   draggedItemIndex,
 })
 
-const { onTouchMobileStart, onTouchMobileItemEnd } = useKanbanMobile({
+const { onTouchMobileStart, onTouchMobileItemEnd, onTouchBoardItemStart } = useKanbanMobile({
   kanbanWrapperRef,
   props,
   emits,
@@ -87,7 +101,6 @@ const { onTouchMobileStart, onTouchMobileItemEnd } = useKanbanMobile({
 }
 
 .item-style {
-  min-width: 80px;
   border-radius: 12px;
   background-color: lightcoral;
   padding: 16px;

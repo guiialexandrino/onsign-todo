@@ -22,4 +22,9 @@ export type KanbanEmits = {
   (e: 'onDelete', payload: any): void
 }
 
+export type KanbanSlots = {
+  title?: (props: { board: Board }) => any
+  item?: (props: { boardItem: BoardItem }) => any
+}
+
 export type onChangeBoardItem = { index: number; value: BoardItem }
