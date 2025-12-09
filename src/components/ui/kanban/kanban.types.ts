@@ -18,7 +18,7 @@ export type Kanban = {
 
 export type KanbanEmits = {
   (e: 'onChange', payload: onChangeBoardItem): void
-  (e: 'onDelete', payload: any): void
+  (e: 'onDelete', payload: onDeleteBoardItem): void
 }
 
 export type KanbanSlots = {
@@ -27,3 +27,4 @@ export type KanbanSlots = {
 }
 
 export type onChangeBoardItem = { index: number; value: BoardItem }
+export type onDeleteBoardItem = { index: number; value: BoardItem; itensAfterDelete: BoardItem[] }

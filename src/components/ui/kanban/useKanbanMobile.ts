@@ -47,7 +47,7 @@ export const useKanbanMobile = ({
     if (kanbanWrapperRef.value) {
       let { left, right } = kanbanWrapperRef.value.getBoundingClientRect()
       const boardsLength = props.boards.length
-      right = right * boardsLength + props.gapBetweenBoards! * (boardsLength - 1)
+      right = right * boardsLength + props.style!.gapBetweenBoards! * (boardsLength - 1)
 
       const xPosition =
         (kanbanWrapperRef.value.scrollLeft || 0) + (e.changedTouches[0]?.clientX || 0)
@@ -56,7 +56,8 @@ export const useKanbanMobile = ({
 
       const boardIndex = Math.floor(
         xPosition /
-          (props.boardWidth! + (xPosition > props.boardWidth! ? props.gapBetweenBoards! : 0)),
+          (props.style!.boardWidth! +
+            (xPosition > props.style!.boardWidth! ? props.style!.gapBetweenBoards! : 0)),
       )
 
       const board = props.boards[boardIndex]

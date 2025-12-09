@@ -1,5 +1,5 @@
 :root {
-  --text-color: rgba(65, 65, 65, 1);
+  --text-color: #3f4142;
 }
 
 @font-face {
@@ -28,4 +28,9 @@ h5 {
   font-family: 'montserrat-medium', Arial, Helvetica, sans-serif;
   color: #0671af;
   padding-bottom: 16px;
+}
+
+button,
+input {
+  font-family: 'quicksand', Arial, Helvetica, sans-serif;
 }
