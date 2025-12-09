@@ -78,7 +78,9 @@ export const useKanbanMobile = ({
 
   const onTouchBoardItemStart = (item: BoardItem, e: TouchEvent) => {
     if (e.targetTouches[0]?.clientX) {
-      const target = e.target as HTMLElement
+      let target = e.target as HTMLElement
+      const hasItemStyleClass = target.classList.contains('item-style')
+      if (!hasItemStyleClass && target.parentElement) target = target.parentElement
       createGhostMobile(target, e.targetTouches[0])
     }
 

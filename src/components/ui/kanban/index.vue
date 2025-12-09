@@ -145,6 +145,10 @@ const titleHeight = computed(() => {
   overflow-y: auto;
 }
 
+h2 {
+  padding-left: 8px;
+}
+
 .item-style {
   border-radius: 12px;
   background-color: white;
@@ -157,6 +161,7 @@ const titleHeight = computed(() => {
 }
 
 .item-style .label {
+  user-select: none;
   flex: 1 0 0;
 }
 
