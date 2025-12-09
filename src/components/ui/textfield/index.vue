@@ -1,12 +1,12 @@
 <template>
-  <input class="input-style" v-model="value" @keydown.enter="onPressEnter"></input>
+  <input class="input-style" v-model="inputValue" @keydown.enter="onPressEnter"></input>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { TextField, TextFieldEmits } from './textfield.types';
 
-const value = defineModel<string>('')
+const inputValue = defineModel<string>()
 const props = withDefaults(defineProps<TextField>(), {  height: 38 })
 const emits = defineEmits<TextFieldEmits>()
 

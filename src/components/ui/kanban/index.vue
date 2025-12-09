@@ -72,17 +72,6 @@ const titleRef = ref<HTMLDivElement[] | null>(null)
 const isDragging = ref(false)
 const draggedItem = ref<BoardItem | null>(null)
 const draggedItemIndex = ref<number>(-1)
-
-const gap = computed(() => `${props.style.gapBetweenBoards}px`)
-const width = computed(() => `${props.style.boardWidth}px`)
-const titleHeight = computed(() => {
-  if (titleRef.value) {
-    const height = titleRef.value[0]?.getBoundingClientRect().height
-    return height ? `${height}px` : `0px`
-  }
-  return `0px`
-})
-
 const getItens = (boardValue: string): BoardItem[] => {
   return props.itens.filter((item) => item.value === boardValue)
 }
@@ -115,6 +104,17 @@ const handleRemove = (boardItem: BoardItem) => {
     emits('onDelete', payload)
   }
 }
+
+/* Style */
+const gap = computed(() => `${props.style.gapBetweenBoards}px`)
+const width = computed(() => `${props.style.boardWidth}px`)
+const titleHeight = computed(() => {
+  if (titleRef.value) {
+    const height = titleRef.value[0]?.getBoundingClientRect().height
+    return height ? `${height}px` : `0px`
+  }
+  return `0px`
+})
 </script>
 
 <style scoped>

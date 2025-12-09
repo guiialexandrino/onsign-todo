@@ -10,7 +10,7 @@
   <main class="kanban-container">
     <Kanban
       :boards="boards"
-      :itens="itens"
+      :itens="itens!"
       @onChange="onChangeItemFromBoard"
       @onDelete="onDeleteItemFromBoard"
     />
@@ -18,7 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
+import { StorageClient } from '@/provider'
+import { useStateSyncStorage } from '@/hookies/useStateStorage'
+
 import TextField from '@/components/ui/textfield/index.vue'
 import Button from '@/components/ui/button/index.vue'
 import Kanban from '@/components/ui/kanban/index.vue'
@@ -36,7 +39,10 @@ const boards: Board[] = [
   { title: 'DONE', value: 'done' },
 ]
 
-const itens = ref<BoardItem[]>([])
+const storage = inject(StorageClient)
+if (!storage) throw new Error('StorageClient não encontrado')
+
+const { state: itens } = useStateSyncStorage(storage, 'todoList', [])
 
 const handleCreateTask = () => {
   const taskLabel = newTaskInput.value
@@ -52,6 +58,7 @@ const handleCreateTask = () => {
   }
 
   itens.value.push(newTask)
+  newTaskInput.value = ''
 }
 
 const onChangeItemFromBoard = ({ index, value }: onChangeBoardItem) => {
@@ -69,7 +76,7 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: calc(15dvh);
+  height: calc(20dvh);
 }
 
 .add-task {
@@ -81,7 +88,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: calc(80dvh);
+  max-height: calc(75dvh);
   max-width: 100%;
 }
 </style>
