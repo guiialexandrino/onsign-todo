@@ -46,12 +46,14 @@ import { useKanbanDesktop } from './useKanbanDesktop'
 import { useKanbanMobile } from './useKanbanMobile'
 import { type KanbanEmits, type Kanban, type BoardItem, type KanbanSlots } from './kanban.types'
 
-const props = withDefaults(defineProps<Kanban>(), { gapBetweenBoards: 20, boardWidth: 400 })
+const props = withDefaults(defineProps<Kanban>(), {
+  style: () => ({ gapBetweenBoards: 20, boardWidth: 400 }),
+})
 const emits = defineEmits<KanbanEmits>()
 const slots = defineSlots<KanbanSlots>()
 
-const gap = computed(() => `${props.gapBetweenBoards}px`)
-const width = computed(() => `${props.boardWidth}px`)
+const gap = computed(() => `${props.style.gapBetweenBoards}px`)
+const width = computed(() => `${props.style.boardWidth}px`)
 const getItens = (boardValue: string): BoardItem[] => {
   return props.itens.filter((item) => item.value === boardValue)
 }
@@ -82,7 +84,8 @@ const { onTouchMobileStart, onTouchMobileItemEnd, onTouchBoardItemStart } = useK
 <style scoped>
 .kanban-wrapper {
   display: flex;
-  min-width: 100%;
+  max-width: 100%;
+  max-height: 100%;
   gap: v-bind(gap);
   overflow: hidden;
   overflow-x: auto;
@@ -98,11 +101,17 @@ const { onTouchMobileStart, onTouchMobileItemEnd, onTouchBoardItemStart } = useK
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #eff0f2;
+  /* max-height: calc(100% - 45px);
+  overflow-y: auto; */
 }
 
 .item-style {
   border-radius: 12px;
-  background-color: lightcoral;
+  background-color: white;
+  border: 1px solid lightgray;
   padding: 16px;
 }
 </style>

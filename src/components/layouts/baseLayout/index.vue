@@ -10,15 +10,16 @@
 .container-layout {
   display: flex;
   justify-content: center;
-  height: 100dvh;
+  min-height: 100dvh;
   width: 100%;
 }
 
 .bg {
-  background-color: lightcyan;
+  background-color: #f8fbfe;
 }
 
 .wrapper {
+  display: block;
   width: 100%;
   max-width: 1260px;
 }

@@ -5,7 +5,7 @@ export const useKanbanGhostEffect = () => {
     const ghost = sourceEl.cloneNode(true) as HTMLElement
 
     ghost.style.width = `${sourceEl.offsetWidth}px`
-    ghost.style.height = `${sourceEl.offsetHeight}px`
+    ghost.style.maxHeight = `${sourceEl.offsetHeight}px`
     ghost.style.pointerEvents = 'none'
     ghost.style.position = 'absolute'
     ghost.style.transform = 'translate(-9999px, -9999px)'

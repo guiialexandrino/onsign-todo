@@ -1,8 +1,12 @@
 <template>
-  <section style="background-color: white">
-    <h1>Página Principal</h1>
+  <header ref="headerRef">
+    <h1>✔ TO DO LIST</h1>
+    <span>Adicionar</span>
+  </header>
+
+  <main class="kanban-container">
     <Kanban :boards="boards" :itens="itens" @onChange="onChangeItemFromBoard">
-      <template #title="{ board }">
+      <!-- <template #title="{ board }">
         {{ board.title }}
       </template>
 
@@ -10,15 +14,15 @@
         <div class="board-item-style">
           {{ boardItem.label }}
         </div>
-      </template>
+      </template> -->
     </Kanban>
-  </section>
+  </main>
 </template>
 
 <script setup lang="ts">
 import Kanban from '@/components/ui/kanban/index.vue'
 import type { Board, BoardItem, onChangeBoardItem } from '@/components/ui/kanban/kanban.types'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const boards: Board[] = [
   { title: 'TO DO', value: 'undone' },
@@ -37,6 +41,22 @@ const onChangeItemFromBoard = ({ index, value }: onChangeBoardItem) => {
 </script>
 
 <style scoped>
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(15dvh);
+}
+
+.kanban-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: calc(80dvh);
+  max-width: 100%;
+}
+
 .board-item-style {
   border-radius: 12px;
   background-color: orange;

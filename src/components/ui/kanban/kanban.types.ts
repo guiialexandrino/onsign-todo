@@ -13,8 +13,7 @@ export type BoardItem = {
 export type Kanban = {
   boards: Board[]
   itens: BoardItem[]
-  gapBetweenBoards?: number
-  boardWidth?: number
+  style?: { gapBetweenBoards?: number; boardWidth?: number }
 }
 
 export type KanbanEmits = {
