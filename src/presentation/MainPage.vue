@@ -32,15 +32,15 @@ import type {
   onDeleteBoardItem,
 } from '@/components/ui/kanban/kanban.types'
 
+const storage = inject(StorageClient)
+if (!storage) throw new Error('StorageClient não encontrado')
+
 const newTaskInput = ref<string>('')
 
 const boards: Board[] = [
   { title: 'TO DO', value: 'undone' },
   { title: 'DONE', value: 'done' },
 ]
-
-const storage = inject(StorageClient)
-if (!storage) throw new Error('StorageClient não encontrado')
 
 const { state: itens } = useStateSyncStorage(storage, 'todoList', [])
 

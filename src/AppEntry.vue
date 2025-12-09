@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { LocalStorageClient } from './infra/LocalStorage'
-import type { IStorageClient } from './infra/StorageClient'
-import BaseLayout from './components/layouts/baseLayout/index.vue'
-import { useStateSyncStorage } from './hookies/useStateStorage'
-import { provide, watch } from 'vue'
+import { provide } from 'vue'
 import { StorageClient } from './provider'
+import { LocalStorageClient } from './infra/LocalStorage'
+import BaseLayout from './components/layouts/baseLayout/index.vue'
+import type { IStorageClient } from './infra/StorageClient'
 
 const storageClient: IStorageClient = new LocalStorageClient()
 

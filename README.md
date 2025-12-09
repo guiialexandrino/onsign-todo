@@ -1,27 +1,31 @@
 # onsign-todo
 
-This template should help get you started developing with Vue 3 in Vite.
+## 📝 TodoList Project with Drag & Drop
 
-## Recommended IDE Setup
+A TodoList application built using native HTML5 Drag and Drop for desktop.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+For mobile devices, a custom touch-based Drag and Drop system was implemented to ensure a smooth and responsive user experience.
 
-## Recommended Browser Setup
+### 📦 Persistence Layer
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+The project uses LocalStorage for data persistence, implemented following clean code and dependency injection principles.
+This design allows the storage mechanism to be replaced easily—for example, with LocalForage—by simply creating a new class that implements the IStorageClient interface.
 
-## Type Support for `.vue` Imports in TS
+### ✨ Features
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Add new tasks
 
-## Customize configuration
+- Remove tasks
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- Move tasks between boards using Drag & Drop
+
+### 🏗️ Architecture Notes
+
+Designed with dependency injection to keep the project flexible and maintainable;
+
+Supports different storage providers;
+
+Desktop and mobile drag-and-drop implementations;
 
 ## Project Setup
 
